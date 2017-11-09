@@ -1,0 +1,32 @@
+title: '[DEPLOY] {{ .Call "deploy_title" }}'
+repo:
+  owner: mackee
+  repo: release-request
+  base: master
+  head: develop
+labels:
+  - deploy
+target_label: deploy ready
+markdown: release.md
+calls:
+  - name: deploy_timing
+    command: |
+      perl -MTime::Piece -E '
+      my $now = Time::Piece->new;
+      for my $hms (qw/16:30:00 19:45:00 23:45:00/) {
+          next if $now->hms gt $hms;
+          say $now->ymd . " " . $hms;
+          last;
+      }'
+  - name: deploy_title
+    command: date +"%Y-%m-%d %H:%M"
+  - name: has_assets
+    command: |
+      perl -MJSON -E '
+      my $json = do { local $/; <STDIN> };
+      my $releaser = JSON::decode_json($json);
+      my $files = $releaser->{comparison}->{files};
+      my @assets = grep { $_->{name} =~ m!^_example/.*$! } @$files;
+      @assets > 0 ? exit 0 : exit 1;
+      '
+token: "<your token>"
