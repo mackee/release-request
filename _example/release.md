@@ -6,13 +6,14 @@ Estimated time of deploying: {{ .Call "deploy_timing" }}
 
 {{ range .MergedPullRequests -}}
 - [x] #{{ .Number }} {{ .Title }} by @{{ .Author }}
-{{ end -}}
+{{ end }}
 {{ with .OpenedPullRequests }}
 
 ## Pendings
 
 {{ range . -}}
 - [ ] #{{ .Number }} {{ .Title }} by @{{ .Author }}
+{{ end }}
 {{ end -}}
 
 ## Tasks
