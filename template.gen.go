@@ -14,11 +14,11 @@ var Assets = assets.NewFileSystem(map[string][]string{}, map[string]*assets.File
 	"config.yml": &assets.File{
 		Path:     "config.yml",
 		FileMode: 0x1a4,
-		Mtime:    time.Unix(1510220397, 1510220397000000000),
+		Mtime:    time.Unix(1510225411, 1510225411000000000),
 		Data:     []byte(_Assetsf000cb359297bc9533188180f9bc040ef1fdcb3e),
 	}, "release.md": &assets.File{
 		Path:     "release.md",
 		FileMode: 0x1a4,
-		Mtime:    time.Unix(1510222914, 1510222914000000000),
+		Mtime:    time.Unix(1510225411, 1510225411000000000),
 		Data:     []byte(_Assets9d7da04f478156ce3962423189e531c0785612c3),
 	}}, "")

@@ -14,13 +14,10 @@ type Config struct {
 	Repo        Repo     `yaml:"repo"`
 	Labels      []string `yaml:"labels"`
 	TargetLabel string   `yaml:"target_label"`
-	Body        struct {
-		Markdown string `yaml:"markdown"`
-	} `yaml:"body"`
-	Calls    []call `yaml:"calls"`
-	Token    string `yaml:"token"`
-	Checkout bool   `yaml:"checkout"`
-	Markdown string `yaml:"markdown:`
+	Calls       []call   `yaml:"calls"`
+	Token       string   `yaml:"token"`
+	Checkout    bool     `yaml:"checkout"`
+	Markdown    string   `yaml:"markdown"`
 }
 
 type call struct {
