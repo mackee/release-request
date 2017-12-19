@@ -5,11 +5,12 @@ import (
 )
 
 type PullRequest struct {
-	Number int
-	Title  string
-	Head   string
-	Base   string
-	Author string
+	Number  int
+	Title   string
+	Head    string
+	Base    string
+	Author  string
+	Fetched bool
 }
 
 type PullRequests []PullRequest
