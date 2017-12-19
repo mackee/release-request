@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"net/http"
 
 	"github.com/google/go-github/github"
 	"github.com/pkg/errors"
@@ -89,6 +90,7 @@ func (f *fetcher) compare(ctx context.Context) (Comparison, error) {
 	if err != nil {
 		return Comparison{}, errors.Wrap(err, "fail fetching comapre commits")
 	}
+
 	var com Comparison
 	if len(comparison.Files) > 0 {
 		files := make([]ComparisonFile, 0, len(comparison.Files))
@@ -168,7 +170,16 @@ func (f *fetcher) MergedPullRequests(ctx context.Context) (PullRequests, error) 
 	for _, pr := range prs {
 		_pr := pr
 		eg.Go(func() error {
-			return f.FetchPullRequest(ctx, _pr)
+			err := f.FetchPullRequest(ctx, _pr)
+			if err == nil {
+				return nil
+			}
+			cause := errors.Cause(err)
+			errResp, ok := cause.(*github.ErrorResponse)
+			if ok && errResp.Response.StatusCode == http.StatusNotFound {
+				return nil
+			}
+			return err
 		})
 	}
 	if err := eg.Wait(); err != nil {
@@ -176,6 +187,9 @@ func (f *fetcher) MergedPullRequests(ctx context.Context) (PullRequests, error) 
 	}
 	freezedPRs := make(PullRequests, 0, len(prs))
 	for _, pr := range prs {
+		if !pr.Fetched {
+			continue
+		}
 		if pr.Base != f.Repo.Head {
 			continue
 		}
@@ -195,6 +209,7 @@ func (f *fetcher) FetchPullRequest(ctx context.Context, pr *PullRequest) error {
 	pr.Base = prr.GetBase().GetRef()
 	pr.Title = prr.GetTitle()
 	pr.Author = prr.GetUser().GetLogin()
+	pr.Fetched = true
 
 	return nil
 }
