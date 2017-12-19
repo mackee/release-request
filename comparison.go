@@ -55,7 +55,8 @@ func (c ComparisonCommit) PullRequest() (PullRequest, error) {
 	}
 
 	pr = PullRequest{
-		Number: number,
+		Number:  number,
+		Fetched: false,
 	}
 
 	return pr, nil
