@@ -3,6 +3,7 @@ package main
 import (
 	"io"
 	"io/ioutil"
+	"os"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -50,6 +51,10 @@ func NewConfig(r io.Reader) (Config, error) {
 	err = yaml.Unmarshal(bs, &c)
 	if err != nil {
 		return c, errors.Wrap(err, "cannot unmarshal config")
+	}
+
+	if c.Token == "" {
+		c.Token = os.Getenv("GITHUB_TOKEN")
 	}
 
 	return c, nil
