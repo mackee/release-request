@@ -10,19 +10,15 @@ test:
 	go test -v -race
 	go vet
 
-get-deps:
-	go get -u github.com/golang/dep/cmd/dep
-	dep ensure
-
 clean:
 	rm -Rf _bin/* _artifacts/*
 
 install: _bin/release-request
 	install _bin/release-request $(GOPATH)/bin
 
-build: clean get-deps test
+build: clean test
 	go generate
-	gox -output "_artifacts/{{.Dir}}-{{.OS}}-{{.Arch}}-${VERSION}/release-request" -ldflags "-w -s -X main.Version=$(VERSION)"
+	gox -output "_artifacts/{{.Dir}}-{{.OS}}-{{.Arch}}-${VERSION}/release-request" -arch="amd64" -os "darwin" -os "windows" -os "linux" -ldflags "-w -s -X main.Version=$(VERSION)"
 	cd _artifacts/ && find . -name 'release-request*' -type d | sed 's/\.\///' | xargs -I{} zip -m -q -r {}.zip {}
 
 release:

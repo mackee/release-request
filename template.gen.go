@@ -11,14 +11,14 @@ var _Assetsf000cb359297bc9533188180f9bc040ef1fdcb3e = "title: '[DEPLOY] {{ .Call
 
 // Assets returns go-assets FileSystem
 var Assets = assets.NewFileSystem(map[string][]string{}, map[string]*assets.File{
-	"config.yml": &assets.File{
-		Path:     "config.yml",
-		FileMode: 0x1a4,
-		Mtime:    time.Unix(1510543974, 1510543974000000000),
-		Data:     []byte(_Assetsf000cb359297bc9533188180f9bc040ef1fdcb3e),
-	}, "release.md": &assets.File{
+	"release.md": &assets.File{
 		Path:     "release.md",
 		FileMode: 0x1a4,
-		Mtime:    time.Unix(1510543974, 1510543974000000000),
+		Mtime:    time.Unix(1513660756, 1513660756000000000),
 		Data:     []byte(_Assets9d7da04f478156ce3962423189e531c0785612c3),
+	}, "config.yml": &assets.File{
+		Path:     "config.yml",
+		FileMode: 0x1a4,
+		Mtime:    time.Unix(1513660756, 1513660756000000000),
+		Data:     []byte(_Assetsf000cb359297bc9533188180f9bc040ef1fdcb3e),
 	}}, "")
