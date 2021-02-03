@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 	"strings"
 
+	"github.com/kayac/go-config"
 	"github.com/pkg/errors"
-	"gopkg.in/yaml.v2"
 )
 
 type Config struct {
@@ -47,7 +47,7 @@ func NewConfig(r io.Reader) (Config, error) {
 		return c, errors.Wrap(err, "cannot read config reader")
 	}
 
-	err = yaml.Unmarshal(bs, &c)
+	err = config.LoadWithEnvBytes(&c, bs)
 	if err != nil {
 		return c, errors.Wrap(err, "cannot unmarshal config")
 	}
