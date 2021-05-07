@@ -190,7 +190,7 @@ func (f *fetcher) MergedPullRequests(ctx context.Context) (PullRequests, error) 
 		if !pr.Fetched {
 			continue
 		}
-		if pr.Base != f.Repo.Head {
+		if !f.Repo.ContainsBase(pr.Base) {
 			continue
 		}
 		freezedPRs = append(freezedPRs, *pr)

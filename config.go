@@ -27,10 +27,11 @@ type call struct {
 }
 
 type Repo struct {
-	Owner string `yaml:"owner"`
-	Repo  string `yaml:"repo"`
-	Head  string `yaml:"head"`
-	Base  string `yaml:"base"`
+	Owner            string   `yaml:"owner"`
+	Repo             string   `yaml:"repo"`
+	Head             string   `yaml:"head"`
+	LogContainsBases []string `yaml:"log_contains_bases"`
+	Base             string   `yaml:"base"`
 }
 
 func (r Repo) JoinedHead() string {
@@ -38,6 +39,16 @@ func (r Repo) JoinedHead() string {
 		return r.Head
 	}
 	return strings.Join([]string{r.Owner, r.Head}, ":")
+}
+
+func (r Repo) ContainsBase(base string) bool {
+	bases := append(r.LogContainsBases, r.Head)
+	for _, _base := range bases {
+		if _base == base {
+			return true
+		}
+	}
+	return false
 }
 
 func NewConfig(r io.Reader) (Config, error) {
