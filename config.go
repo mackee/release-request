@@ -48,7 +48,9 @@ func NewConfig(r io.Reader) (Config, error) {
 		return c, errors.Wrap(err, "cannot read config reader")
 	}
 
-	err = config.LoadWithEnvBytes(&c, bs)
+	loader := config.New()
+	loader.Delims("%%", "%%")
+	err = loader.LoadWithEnvBytes(&c, bs)
 	if err != nil {
 		return c, errors.Wrap(err, "cannot unmarshal config")
 	}
